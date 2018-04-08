@@ -14,10 +14,10 @@
 		<fileset dir="./lib" includes="serviceInterceptor.jar" />
 		<fileset dir="./lib" includes="serviceMockClient.jar" />
 	</path>
-	
-	<target name="startTest" depends="jenkinsCheck">		
+
+	<target name="startTest" depends="jenkinsCheck">
 		<var name="failedTestList" value=""/>
-		
+
                 <!-- interate over the test project and triiger all xml tests in the setup folder -->
                 <for param="testProject" keepgoing="true" trim="true">
 			<path>
@@ -45,7 +45,7 @@
 
 
 
-		
+
 		<if>
 			<not>
 				<equals arg1="${failedTestList}" arg2="" trim="true" />
@@ -61,23 +61,23 @@
 
 	<target name="junitInitTest">
 		<echo message="Init JUnit tests for package ${testPackageName}" />
-		
+
 		<property name="testPackageReportsDir" value="${testPackageName}/resources/reports" />
 	</target>
-	
+
 	<target name="junitCleanUp">
-		<delete dir="${testPackageReportsDir}" />								
+		<delete dir="${testPackageReportsDir}" />
 	</target>
-	
+
 
 	<!--execute only if the XML Test directory exists in the test package -->
 	<target name="junitTestAndReportXML" depends="junitInitTest,junitCleanUp">
 		<echo message="Starting JUnit tests for package '${testPackageName}'"/>
-		
+
 		<mkdir dir="${testPackageReportsDir}" />
 
 		<property name="resourcesFolder" value="${testPackageName}/resources" />
-		
+
 		<for param="testSetupFile" keepgoing="true">
 			<path>
 				<!--fileset dir="${testPackageXmlDir}" includes="*.xml" /-->
@@ -87,10 +87,10 @@
 				<basename property="fileBasename" file="@{testSetupFile}" suffix=".xml" />
 				<echo message="Running JUnit test '@{testSetupFile}'"/>
 				<junit printsummary="yes" haltonfailure="no" fork="true" failureproperty="test:failure" showoutput="true" dir="${testPackageName}">
-					<jvmarg value="-DwebMethods.integrationServer.name=${testISHost}" />
-					<jvmarg value="-DwebMethods.integrationServer.port=${testISPort}" />
-					<jvmarg value="-DwebMethods.integrationServer.userid=${testISUsername}" />
-					<jvmarg value="-DwebMethods.integrationServer.password=${testISPassword}" />
+					<jvmarg value="-DwebMethods.integrationServer.name=${ciTestServerISHost}" />
+					<jvmarg value="-DwebMethods.integrationServer.port=${ciTestServerISPort}" />
+					<jvmarg value="-DwebMethods.integrationServer.userid=${ciTestServerISUsername}" />
+					<jvmarg value="-DwebMethods.integrationServer.password=${ciTestServerISPassword}" />
 					<jvmarg value="-DwebMethods.test.setup.filename=@{testSetupFile}" />
 					<!--jvmarg value="-Dresources.folder=${resourcesFolder}" /-->
 					<classpath>
@@ -99,18 +99,18 @@
 					<formatter type="xml" />
 					<test name="com.wm.ps.test.WmTestSuite" outfile="TEST-${fileBasename}" haltonerror="false" haltonfailure="false" todir="${testPackageReportsDir}" />
 				</junit>
-				<replaceregexp file="${testPackageReportsDir}/TEST-${fileBasename}.xml" match=" name=&quot;com.wm.ps.test.WmTestSuite&quot; " replace=" name=&quot;com.wm.ps.test.WmTestSuite [${fileBasename}]&quot; " />												
+				<replaceregexp file="${testPackageReportsDir}/TEST-${fileBasename}.xml" match=" name=&quot;com.wm.ps.test.WmTestSuite&quot; " replace=" name=&quot;com.wm.ps.test.WmTestSuite [${fileBasename}]&quot; " />
 				<var name="fileBasename" unset="true" />
 			</sequential>
 		</for>
 
-		
+
 		<!-- if jenkins report dir is set publicate results there-->
 		<antcall target="junitCopyResultsToReportsDir">
 			<param name="current.report.dir" value="${testPackageReportsDir}" />
 		</antcall>
-		
-		
+
+
 		<!-- create HTML report of the test results -->
 		<junitreport todir="${testPackageReportsDir}">
 			<fileset dir="${testPackageReportsDir}">
@@ -137,14 +137,14 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<!-- will jenkins evaluate the test results -->
 	<target name="jenkinsCheck" >
 		 <condition property="isReportingToJenkins">
 		 	<not>
             	<equals arg1="${jenkinsReportDir}" arg2="" trim="true"/>
-	 		</not>	
+	 		</not>
 	     </condition>
 	</target>
-	
+
 </project>
