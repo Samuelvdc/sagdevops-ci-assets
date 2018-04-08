@@ -18,12 +18,12 @@
   <xsl:param name="testEnvISAPort"/>
   <xsl:param name="testEnvISAUsername"/>
   <xsl:param name="testEnvISAPassword"/>
-
+<!--
 	<xsl:param name="testISHost"/>
 	<xsl:param name="testISPort"/>
 	<xsl:param name="testISUsername"/>
 	<xsl:param name="testISPassword"/>
-
+-->
 	<xsl:param name="repoName"/>
 	<xsl:param name="repoPath"/>
 	<xsl:param name="projectName"/>
@@ -45,7 +45,7 @@
 	<xsl:template match="DeployerSpec/Environment">
 	    <Environment>
 			<IS>
-				<isalias name="testServer">
+				<!--<isalias name="testServer">
 					<host><xsl:value-of select="$testISHost"/></host>
 					<port><xsl:value-of select="$testISPort"/></port>
 					<user><xsl:value-of select="$testISUsername"/></user>
@@ -53,7 +53,7 @@
 					<useSSL>false</useSSL>
 					<installDeployerResource>true</installDeployerResource>
 					<Test>true</Test>
-				</isalias>
+				</isalias>-->
         <isalias name="usp_ci_testserver">
 					<host><xsl:value-of select="$testISHost"/></host>
 					<port><xsl:value-of select="$testISPort"/></port>
