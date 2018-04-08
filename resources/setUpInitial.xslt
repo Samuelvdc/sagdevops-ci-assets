@@ -55,19 +55,19 @@
 					<Test>true</Test>
 				</isalias>-->
         <isalias name="usp_ci_testserver">
-					<host><xsl:value-of select="$testISHost"/></host>
-					<port><xsl:value-of select="$testISPort"/></port>
-					<user><xsl:value-of select="$testISUsername"/></user>
-					<pwd><xsl:value-of select="$testISPassword"/></pwd>
+					<host><xsl:value-of select="$ciTestServerISHost"/></host>
+					<port><xsl:value-of select="$ciTestServerISPort"/></port>
+					<user><xsl:value-of select="$ciTestServerISUsername"/></user>
+					<pwd><xsl:value-of select="$ciTestServerISPassword"/></pwd>
 					<useSSL>false</useSSL>
 					<installDeployerResource>true</installDeployerResource>
 					<Test>true</Test>
 				</isalias>
         <isalias name="usp_tst_is_a">
-					<host><xsl:value-of select="$testISHost"/></host>
-					<port><xsl:value-of select="$testISPort"/></port>
-					<user><xsl:value-of select="$testISUsername"/></user>
-					<pwd><xsl:value-of select="$testISPassword"/></pwd>
+					<host><xsl:value-of select="$testEnvISAHost"/></host>
+					<port><xsl:value-of select="$testEnvISAPort"/></port>
+					<user><xsl:value-of select="$testEnvISAUsername"/></user>
+					<pwd><xsl:value-of select="$testEnvISAPassword"/></pwd>
 					<useSSL>false</useSSL>
 					<installDeployerResource>true</installDeployerResource>
 					<Test>true</Test>
